@@ -51,14 +51,14 @@ def load_data(city, month, day):
     df = pd.read_csv(city_file)
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['month'] = df['Start Time'].dt.month
-    months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
-    df['Start Time'] = pd.to_datetime(df['Start Time'])
-    df['day'] = df['Start Time'].dt.weekday_name
-    df['month'] = df['Start Time'].dt.month
+    df['day'] = df['Start Time'].dt.weekday
     df['hour'] = df['Start Time'].dt.hour
     if month != 'all':
+        months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
         df = df[df['month'] == months.index(month) + 1]
-    df = df[df['day'] == day]
+    if day != 'all':
+        weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        df = df[df['day'] == weekdays.index(day)]
     return df
 
 
@@ -131,8 +131,9 @@ def user_stats(df):
 
     # TO DO: Display earliest, most recent, and most common year of birth
     most_common = df['Birth Year'].mode()[0]
-    earliest = df['Birth Year'].sort()[0]
-    most_recent = df['Birth Year'].sort(ascending=False)[0]
+    birth_year = df['Birth Year'].sort_values().dropna().to_dict()
+    earliest = min(birth_year.values())
+    most_recent = max(birth_year.values())
     print('earliest birth year: {0}, most recent birth year: {1}, most common birth year: {2}'.format(earliest,
                                                                                                       most_recent,
                                                                                                       most_common))
