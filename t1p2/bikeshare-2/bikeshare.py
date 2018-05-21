@@ -18,7 +18,10 @@ def get_filters():
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input('\nHello! Let\'s explore some US bikeshare data!\n'
                  'Would you like to see data for Chicago, New York, or Washington?\n')
-    city = city.lower()
+    city = input().lower()
+    while city not in ('washington', 'new york', 'chicago'):
+        city = input('Invalid input. Please type again').lower()
+
 
     # TO DO: get user input for month (all, january, february, ... , june)
     month = input('\nWhich month? January, February, March, April, May, or June? '
@@ -126,8 +129,11 @@ def user_stats(df):
     print('Subscriber count: {0}, Customer count: {1}'.format(counts['Subscriber'], counts['Customer']))
 
     # TO DO: Display counts of gender
-    counts = df['Gender'].value_counts().to_dict()
-    print('Male count: {0}, Female count: {1}'.format(counts['Male'], counts['Female']))
+    try:
+       counts = df['Gender'].value_counts().to_dict()
+       print('Male count: {0}, Female count: {1}'.format(counts['Male'], counts['Female']))
+   except KeyError:
+       print('No such column named Gender')
 
     # TO DO: Display earliest, most recent, and most common year of birth
     most_common = df['Birth Year'].mode()[0]
