@@ -1,6 +1,6 @@
 import time
+
 import pandas as pd
-import numpy as np
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -130,19 +130,22 @@ def user_stats(df):
 
     # TO DO: Display counts of gender
     try:
-       counts = df['Gender'].value_counts().to_dict()
-       print('Male count: {0}, Female count: {1}'.format(counts['Male'], counts['Female']))
-   except KeyError:
-       print('No such column named Gender')
+        counts = df['Gender'].value_counts().to_dict()
+        print('Male count: {0}, Female count: {1}'.format(counts['Male'], counts['Female']))
+    except KeyError:
+        print('No such column named Gender')
 
     # TO DO: Display earliest, most recent, and most common year of birth
-    most_common = df['Birth Year'].mode()[0]
-    birth_year = df['Birth Year'].sort_values().dropna().to_dict()
-    earliest = min(birth_year.values())
-    most_recent = max(birth_year.values())
-    print('earliest birth year: {0}, most recent birth year: {1}, most common birth year: {2}'.format(earliest,
+    try:
+        most_common = df['Birth Year'].mode()[0]
+        birth_year = df['Birth Year'].sort_values().dropna().to_dict()
+        earliest = min(birth_year.values())
+        most_recent = max(birth_year.values())
+        print('earliest birth year: {0}, most recent birth year: {1}, most common birth year: {2}'.format(earliest,
                                                                                                       most_recent,
                                                                                                       most_common))
+    except KeyError:
+        print('No such column named Birth Year')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
