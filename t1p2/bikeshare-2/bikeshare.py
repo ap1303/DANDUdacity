@@ -17,20 +17,23 @@ def get_filters():
     """
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input('\nHello! Let\'s explore some US bikeshare data!\n'
-                 'Would you like to see data for Chicago, New York, or Washington?\n')
-    city = input().lower()
+                 'Would you like to see data for Chicago, New York, or Washington?\n').lower()
     while city not in ('washington', 'new york', 'chicago'):
         city = input('Invalid input. Please type again').lower()
 
 
     # TO DO: get user input for month (all, january, february, ... , june)
     month = input('\nWhich month? January, February, March, April, May, or June? '
-                  'Type \'all\' to apply no month filter\n')
-    month = month.lower()
+                  'Type \'all\' to apply no month filter\n').lower()
+    if month != 'all':
+        while month not in ('january', 'february', 'march', 'april', 'may', 'june'):
+            city = input('Invalid input. Please type again').lower()
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-    day = input('\nWhich day? Please type your response as an english word. Type \'all\' to apply no day filter\n')
-    day = day.lower()
+    day = input('\nWhich day? Please type your response as an english word. Type \'all\' to apply no day filter\n').lower()
+    if day != 'all':
+        while day not in ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'):
+            day = input('Invalid input. Please type again').lower()
 
     print('-'*40)
     return city, month, day
@@ -145,7 +148,7 @@ def user_stats(df):
                                                                                                       most_recent,
                                                                                                       most_common))
     except KeyError:
-        print('No such column named Birth Year')
+        print('No such column named Birth Yeark')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
