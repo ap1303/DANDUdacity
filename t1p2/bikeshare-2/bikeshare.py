@@ -27,7 +27,7 @@ def get_filters():
                   'Type \'all\' to apply no month filter\n').lower()
     if month != 'all':
         while month not in ('january', 'february', 'march', 'april', 'may', 'june'):
-            city = input('Invalid input. Please type again').lower()
+            month = input('Invalid input. Please type again').lower()
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     day = input('\nWhich day? Please type your response as an english word. Type \'all\' to apply no day filter\n').lower()
@@ -77,6 +77,16 @@ def time_stats(df):
     # TO DO: display the most common start hour
     print('The most popular hour is {0}'.format(df['hour'].mode()[0]))
 
+    # TO DO: Display the most common month
+    months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
+    month = months[df['month'].mode()[0] - 1]
+    print('The most common month is {0}'.format(month))
+
+    # TO DO: Display the most common day of the week
+    weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    day = weekdays[df['day'].mode()[0]]
+    print('The most common day of the week is {0}'.format(day))
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -94,9 +104,8 @@ def station_stats(df):
     print('The most popular end station is {0}'.format(df['End Station'].mode()[0]))
 
     # TO DO: display most frequent combination of start station and end station trip
-    count_df = df.groupby(['Start Station', 'End Station']).size().reset_index().rename(
-        columns={0: 'count'}).sort_values(['count'])
-    print('The most popular trip is from {0} to {1}'.format(count_df.iloc[0, 0], count_df.iloc[0, 1]))
+    df['trip'] = ' From ' + df['Start Station'] + ' to ' + df['End Station']
+    print('The most popular trip is {0}'.format(df['trip'].mode()[0]))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
