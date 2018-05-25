@@ -3,18 +3,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def load_data():
-    return pd.read_csv('tmdb-movies.csv')
+def load_data(year):
+    df = pd.read_csv('tmdb-movies.csv')
+    df = df[df['release_year'] == year]
+    return df
 
 
-def bestselling_movie(df, year):
+def bestselling_movie(df):
     """
     Return the name of the best-selling movie and its total revenue
 
     @param df: pd.DataFrame
-    @param year: str
     @return: (str, int)
     """
+    max_revenue = df['revenue'].mode()[0]
+    name = df[df['revenue'] == max_revenue]['original_title']
+    return name, max_revenue
 
 
 def bestselling_director(df):
@@ -24,6 +28,9 @@ def bestselling_director(df):
     @param df: pd.DataFrame
     @return: str
     """
+    max_revenue = df['revenue'].mode()[0]
+    name = df[df['revenue'] == max_revenue]['director']
+    return name
 
 
 def relationship_between_revenue_and_budget(df):
@@ -32,7 +39,7 @@ def relationship_between_revenue_and_budget(df):
     @param df: pd.DataFrame
     @return: the line graph
     """
-
+    plt.draw()
 
 def popularity_and_budget():
     """
